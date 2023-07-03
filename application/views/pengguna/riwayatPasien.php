@@ -27,8 +27,6 @@
                                     <h4><?= $pasien->nama ?></h4>
                                     <p class="text-secondary mb-1">RM <?= $pasien->nomor_rm ?></p>
                                     <p class="text-muted font-size-sm">Registrasi <?= date('d F Y', $pasien->tanggal_buat); ?></p>
-                                    <!-- <button class="btn btn-primary">Follow</button>
-                                    <button class="btn btn-outline-primary">Message</button> -->
                                 </div>
                             </div>
                         </div>
