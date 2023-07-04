@@ -68,7 +68,7 @@
         "stateSave": true,
         "processing": true,
         "serverSide": true,
-        "dom": "frtp",
+        "dom": "ftp",
 
         "oLanguage": {
           "sSearch": "Search:",

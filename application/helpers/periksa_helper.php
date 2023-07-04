@@ -54,7 +54,7 @@ if (!function_exists('store_periksa')) {
 
             // Handle the error (display error message, log, etc.)
             echo "Error: " . $e->getMessage();
-            $this->session->set_flashdata('periksa', '<div class="alert alert-danger" role="alert">Erro: ' . $e->getMessage() . '</div>');
+            $this->session->set_flashdata('periksa', '<div class="alert alert-danger" role="alert">Error: ' . $e->getMessage() . '</div>');
             return false;
         }
     }

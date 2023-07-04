@@ -50,7 +50,7 @@ class Periksa_model extends CI_Model
         $this->db->select('periksa.*, rekam_medis.jenis_kelamin, rekam_medis.tanggal_buat AS rekam_medis_created_at, rekam_medis.nomor_rm, rekam_medis.tanggal_lahir, rekam_medis.nama AS nama_pasien, rekam_medis.alamat, tindakan.tindakan, tindakan.total_tindakan, tindakan.tindakan_biaya, tindakan.total_biaya, dokter.nama_dokter');
         $this->db->from('periksa');
         $this->db->join(
-            '(SELECT id_periksa, GROUP_CONCAT(nama) AS tindakan, SUM(id_periksa) AS total_tindakan, GROUP_CONCAT(biaya) AS tindakan_biaya, SUM(biaya) AS total_biaya FROM tindakan WHERE MONTH(created_at) = ' . $month . ' AND YEAR(created_at) = ' . $year . ' GROUP BY id_periksa) tindakan',
+            '(SELECT id_periksa, GROUP_CONCAT(nama) AS tindakan, COUNT(id_periksa) AS total_tindakan, GROUP_CONCAT(biaya) AS tindakan_biaya, SUM(biaya) AS total_biaya FROM tindakan WHERE MONTH(created_at) = ' . $month . ' AND YEAR(created_at) = ' . $year . ' GROUP BY id_periksa) tindakan',
             'tindakan.id_periksa = periksa.id',
         );
         $this->db->join('dokter', 'dokter.id = periksa.id_dokter');
