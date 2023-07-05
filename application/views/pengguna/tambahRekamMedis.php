@@ -25,9 +25,12 @@
             <?= form_error('nama', '<small class="text-danger pl-3">', '</small>'); ?>
           </div>
           <div class="form-group col-md-4">
-            <label>Nomor KTP</label>
-            <input type="text" class="form-control" id="nomorktp" placeholder="" name="nomorktp" value="<?= set_value('nomorktp') ?>">
-            <?= form_error('nomorktp', '<small class="text-danger pl-3">', '</small>'); ?>
+            <label>Jenis Kelamin</label>
+            <select name="jenis_kelamin" id="jenis_kelamin" class="form-control" style="text-transform: uppercase;">
+              <option value="">-- Pilih Jenis Kelamin --</option>
+              <option value="L">Laki-laki</option>
+              <option value="P">Perempuan</option>
+            </select> <?= form_error('jenis_kelamin', '<small class="text-danger pl-3">', '</small>'); ?>
           </div>
           <div class="form-group col-md-4">
             <label>Tanggal Lahir</label>
@@ -37,6 +40,11 @@
         </div>
 
         <div class="form-row">
+          <div class="form-group col-md-4">
+            <label>Nomor KTP</label>
+            <input type="text" class="form-control" id="nomorktp" placeholder="" name="nomorktp" value="<?= set_value('nomorktp') ?>">
+            <?= form_error('nomorktp', '<small class="text-danger pl-3">', '</small>'); ?>
+          </div>
           <div class="form-group col-md-4">
             <label>Nomor Telpon</label>
             <input type="number" style="text-transform: uppercase;" class="form-control" id="nomor_hp" name="nomor_hp" placeholder="" value="<?= set_value('nomor_hp') ?>">

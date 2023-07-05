@@ -97,9 +97,44 @@ class Periksa extends CI_Controller
         redirect('dashboard');
     }
 
+    public function edit(Int $id_rm = null, $id_periksa = null)
+    {
+        if ($this->session->has_userdata('surel')) {
+            $data['pengguna'] = $this->db->get_where('pengguna', ['surel' => $this->session->userdata('surel')])->row_array();
+            $data['title'] = 'Halaman Pengguna';
+            $data['pasien'] = $this->Pengguna_model->get_by_id($id_rm);
+            $data['riwayat_detail'] = $this->Pengguna_model->get_new_riwayat_by_id_with_id_periksa($id_rm, $id_periksa);
+            $data['dokter'] = $this->Dokter_model->get_all();
+            // print_r($data['riwayat_detail']->tindakan);
+            $this->load->view('template/auth_header', $data);
+            $this->load->view('pengguna/editRiwayatPasien', $data);
+            $this->load->view('template/auth_modal', $data);
+            $this->load->view('template/auth_footer');
+        } else {
+            redirect('auth');
+        }
+    }
+
     public function update(Int $id = null)
     {
-        # code...
+        $this->form_validation->set_rules('id_rm', 'Nomor RM', 'required');
+        $this->form_validation->set_rules('id_periksa', 'Nomor RM', 'required');
+        $this->form_validation->set_rules('id_dokter', 'Dokter', 'required');
+        $this->form_validation->set_rules('diagnosa', 'Diagnosa', 'required');
+        $this->form_validation->set_rules('id_tindakan[]', 'Tindakan', 'required');
+        $this->form_validation->set_rules('tindakan[]', 'Tindakan', 'required');
+        $this->form_validation->set_rules('biaya_tindakan[]', 'Biaya', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('periksa', '<div class="alert alert-danger" role="alert">Data diagnosa gagal diedit</div>');
+            redirect('pengguna/detailPengguna/' . $_POST['id_rm']);
+        }
+        if (update_periksa($this->db)) {
+            $this->session->set_flashdata('periksa', '<div class="alert alert-success" role="alert">Data diagnosa berhasil diedit</div>');
+            redirect('pengguna/detailPengguna/' . $_POST['id_rm']);
+        }
+
+        redirect('pengguna/detailPengguna/' . $_POST['id_rm']);
     }
 
     public function destroy(Int $id = null)

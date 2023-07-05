@@ -98,7 +98,7 @@ class Pengguna extends CI_Controller
 			$this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'trim');
 			$this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required|trim');
 			$this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
-			$this->form_validation->set_rules('pekerjaan', 'Pekerjaan', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
+			$this->form_validation->set_rules('pekerjaan', 'Pekerjaan', 'trim', ['required' => 'Lengkapi kolom ini!']);
 			$this->form_validation->set_rules('kabupaten', 'Kabupaten', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
 			$this->form_validation->set_rules('kecamatan', 'Kecamatan', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
 			$this->form_validation->set_rules('kelurahan', 'Kelurahan', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
@@ -174,11 +174,11 @@ class Pengguna extends CI_Controller
 		if ($this->session->has_userdata('surel')) {
 			$this->form_validation->set_rules('nomorktp', 'Nomor KTP', 'trim|is_unique[rekam_medis.nomor_ktp]', ['is_unique' => 'Nomor KTP telah teregistrasi!']);
 			$this->form_validation->set_rules('nomorrm', 'Nomor RM', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
-			$this->form_validation->set_rules('nomor_hp', 'Nomor Telpon', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
+			$this->form_validation->set_rules('nomor_hp', 'Nomor Telpon', 'trim', ['required' => 'Lengkapi kolom ini!']);
 			$this->form_validation->set_rules('nama', 'Nama', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
 			$this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
 			$this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
-			$this->form_validation->set_rules('pekerjaan', 'Pekerjaan', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
+			$this->form_validation->set_rules('pekerjaan', 'Pekerjaan', 'trim', ['required' => 'Lengkapi kolom ini!']);
 			$this->form_validation->set_rules('kabupaten', 'Kabupaten', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
 			$this->form_validation->set_rules('kecamatan', 'Kecamatan', 'required|trim', ['required' => 'Lengkapi kolom ini!']);
 			$this->form_validation->set_rules('kelurahan', 'Kelurahan', 'required|trim', ['required' => 'Lengkapi kolom ini!']);

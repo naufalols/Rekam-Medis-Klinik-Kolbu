@@ -149,38 +149,53 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <?php if (!empty($riwayat)) : foreach ($riwayat as $item) : ?>
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h6 class="d-flex align-items-center mb-3"><i class="text-primary mr-2"><?= date('d F Y, H:i', strtotime($item->created_at)); ?></i></h6>
-                                    <small>Dokter</small>
-                                    <p>
-                                        <?= $item->nama_dokter ?>
-                                    </p>
-                                    <small>Diagnosa</small>
-                                    <p>
-                                        <?= $item->diagnosa ?>
-                                    </p>
-
-                                    <?php foreach ($item->tindakan as $key => $item_tindakan) : ?>
-                                        <small>Tindakan <?= ++$key ?></small>
-                                        <p>
-                                            <?= $item_tindakan['tindakan'] ?> =
-                                            Rp <?= number_format($item_tindakan['tindakan_biaya']) ?>
-                                        </p>
-
-                                    <?php endforeach ?>
-                                    <div class="float-right">
-                                        <i class="text-secondary mr-2"><small>Last update <?= ($item->created_at === $item->updated_at) ? '' : date('d F Y, H:i', strtotime($item->updated_at)) ?></small></i>
-                                        <a href="<?= base_url('periksa/edit/' . $pasien->id . '/' . $item->id) ?>" class="btn btn-sm btn-primary float-right">Edit</a>
+                <div class="col-md-8 p-4">
+                    <h6 class="d-flex align-items-center mb-3"><i class="text-primary mr-2"><?= date('d F Y, H:i', strtotime($riwayat_detail->created_at)); ?></i></h6>
+                    <form action="<?= base_url('periksa/update/') . $riwayat_detail->id ?>" method="post" id="formEditPeriksa">
+                        <input type="hidden" name="id_rm" id="id_rm" value="<?= $riwayat_detail->id_rm ?>">
+                        <input type="hidden" name="id_periksa" id="id_periksa" value="<?= $riwayat_detail->id ?>">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1" class="font-weight-bold">Dokter</label>
+                            <select class="form-control" name="id_dokter" id="" required>
+                                <?php foreach ($dokter as $item) : ?>
+                                    <option value="<?= $item->id ?>" <?= ((empty($riwayat_detail->id_dokter) ? set_value('id_dokter') : $riwayat_detail->id_dokter) == $item->id) ? 'selected' : '' ?>><?= $item->nama_dokter ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1" class="font-weight-bold">Diagnosa</label>
+                            <textarea name="diagnosa" required class="form-control" id="exampleFormControlTextarea1" rows="3"><?= $riwayat_detail->diagnosa ?></textarea>
+                        </div>
+                        <div class="divider" style="margin-bottom: 100px;"></div>
+                        <div id="formTindakan">
+                            <?php foreach ($riwayat_detail->tindakan as $item) : ?>
+                                <input type="hidden" name="id_tindakan[]" value="<?= $item['id'] ?>" id="">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold" for="">Tindakan</label>
+                                            <input name="tindakan[]" type="text" value="<?= $item['tindakan'] ?>" class="form-control" id="" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold" for="">Biaya</label>
+                                            <input name="biaya_tindakan[]" type="number" value="<?= $item['tindakan_biaya'] ?>" class="form-control" id="" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold invisible" for="">Hapus</label>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="deleteRowTindakan()"><i class="fas fa-times text-light"></i></button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <p class="text-center p-5 bg-white">Belum ada riwayat</p>
-                    <?php endif ?>
+                            <?php endforeach ?>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Simpan</button>
+                    </form>
+
                 </div>
             </div>
 

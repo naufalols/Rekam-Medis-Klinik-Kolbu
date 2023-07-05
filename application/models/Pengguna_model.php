@@ -181,6 +181,51 @@ class Pengguna_model extends CI_Model
 		return $output;
 	}
 
+	function get_new_riwayat_by_id_with_id_periksa($id_rm, $id_periksa)
+	{
+		$this->db->select('periksa.*, tindakan.tindakan, tindakan.tindakan_id, tindakan.tindakan_biaya, dokter.nama_dokter');
+		$this->db->from('periksa');
+		$this->db->join(
+			'(SELECT id_periksa, GROUP_CONCAT(nama) AS tindakan, GROUP_CONCAT(id) AS tindakan_id, GROUP_CONCAT(biaya) AS tindakan_biaya FROM tindakan GROUP BY id_periksa) tindakan',
+			'tindakan.id_periksa = periksa.id',
+		);
+		$this->db->join('dokter', 'dokter.id = periksa.id_dokter');
+		$this->db->join('rekam_medis', 'rekam_medis.id = periksa.id_rm');
+		$this->db->where('id_rm', $id_rm);
+		$this->db->where('periksa.id', $id_periksa);
+
+		$query = $this->db->get();
+		$result = $query->row();
+		$output = '';
+		// Process the result
+
+		$tindakan_idArr = explode(',', $result->tindakan_id);
+		$tindakanArr = explode(',', $result->tindakan);
+		$tindakanBiayaArr = explode(',', $result->tindakan_biaya);
+		$tindakan = [];
+		for ($i = 0; $i < count($tindakanArr); $i++) {
+			$tindakan[] = [
+				'id' => $tindakan_idArr[$i],
+				'tindakan' => $tindakanArr[$i],
+				'tindakan_biaya' => $tindakanBiayaArr[$i]
+			];
+		}
+		$obj = new stdClass();
+		$obj->id = $result->id;
+		$obj->id_rm = $result->id_rm;
+		$obj->id_dokter = $result->id_dokter;
+		$obj->diagnosa = $result->diagnosa;
+		$obj->deskripsi = $result->deskripsi;
+		$obj->created_at = $result->created_at;
+		$obj->updated_at = $result->updated_at;
+		$obj->tindakan = $tindakan;
+		$obj->nama_dokter = $result->nama_dokter;
+
+		$output = $obj;
+
+		return $output;
+	}
+
 	function get_all_riwayat()
 	{
 		$this->db->select('periksa.*, tindakan.tindakan, tindakan.tindakan_biaya, dokter.nama_dokter');

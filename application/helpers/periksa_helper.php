@@ -59,6 +59,58 @@ if (!function_exists('store_periksa')) {
         }
     }
 
+    function update_periksa($db)
+    {
+        $db->trans_start();
+
+        try {
+            // Get the data to be inserted into "periksa" table
+            $periksa_data = array(
+                'id' => $_POST['id_periksa'],
+                'id_dokter' => $_POST['id_dokter'],
+                'diagnosa' => $_POST['diagnosa'],
+                'updated_at' => date('Y-m-d H:i:s'), // Set the current timestamp as the "updated_at" value
+            );
+
+            // Insert data into "periksa" table
+            $db->where('id', $_POST['id_periksa']);
+            $db->update('periksa', $periksa_data);
+            // Get the data to be inserted into "tindakan" table
+            // Transform the array to the format required by insert_batch()
+            $tindakanArray = $_POST['id_tindakan'];
+            $data = array();
+            if (!empty($tindakanArray)) {
+                foreach ($tindakanArray as $key => $tindakan) {
+                    $data[] = array(
+                        'id' => $_POST['id_tindakan'][$key],
+                        'nama' => $_POST['tindakan'][$key],
+                        'biaya' => $_POST['biaya_tindakan'][$key],
+                        'updated_at' => date('Y-m-d H:i:s'), // Set the current timestamp as the "updated_at" value
+                    );
+                }
+            }
+
+            // Insert the data into the database table
+            if (!empty($data)) {
+                $table = 'tindakan';
+                $db->update_batch($table, $data, 'id');
+            }
+            // Commit the transaction
+            $db->trans_commit();
+
+            // Optionally, you can redirect to another page after the transaction
+            return true;
+        } catch (Exception $e) {
+            // An error occurred, rollback the transaction
+            $db->trans_rollback();
+
+            // Handle the error (display error message, log, etc.)
+            echo "Error: " . $e->getMessage();
+            $this->session->set_flashdata('periksa', '<div class="alert alert-danger" role="alert">Error: ' . $e->getMessage() . '</div>');
+            return false;
+        }
+    }
+
     function count_periksa_records_this_month($db)
     {
         $currentMonth = date('m');
