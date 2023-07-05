@@ -172,7 +172,7 @@
 
                                     <?php endforeach ?>
                                     <div class="float-right">
-                                        <i class="text-secondary mr-2"><small>Last update <?= ($item->created_at === $item->updated_at) ? '' : date('d F Y, H:i', strtotime($item->updated_at)) ?></small></i>
+                                        <i class="text-secondary mr-2"><small> <?= ($item->created_at === $item->updated_at) ? '' : 'Last update ' . date('d F Y, H:i', strtotime($item->updated_at)) ?></small></i>
                                         <a href="<?= base_url('periksa/edit/' . $pasien->id . '/' . $item->id) ?>" class="btn btn-sm btn-primary float-right">Edit</a>
                                     </div>
                                 </div>
